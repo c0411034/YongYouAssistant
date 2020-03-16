@@ -18,8 +18,13 @@ namespace YongYouAssistant
             buffer.AppendFormat("&{0}={1}", "password", password);
             url = buffer.ToString();
             HTTPRequests requests = new HTTPRequests();
-            requests.post(url);
+            string respone=requests.post(url);
+            if (respone.Contains("登陆成功"))
+            {
+                return true;
+            }
             return false;
         }
+        public 
     }
 }
