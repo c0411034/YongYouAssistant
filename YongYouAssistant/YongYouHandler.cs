@@ -7,7 +7,7 @@ namespace YongYouAssistant
 {
     class YongYouHandler
     {
-        public bool login()
+        public static String userLogin(HTTPRequests requests)
         {
             String url = "http://10.0.15.16:7001/console/login.action";
             String account = "8d8c8e60bf9bbf4fd79e9e70fe8505a5e135777ed2ae79acbadb09bdb8d8d6fef4791323433ac6d405cd73cc8e6c6a9d29a516c49244f46bcd48d1a5561d6c5668b1abbbfa71a2bb70e714e146d6dd4c31ac6a146a5ae3a7c33f8e86671ba1e1dc8267c2127eea17b7f8d96586548810ed0e1d11271873be91e3432474818ef4";
@@ -17,14 +17,28 @@ namespace YongYouAssistant
             buffer.AppendFormat("?{0}={1}", "account", account);
             buffer.AppendFormat("&{0}={1}", "password", password);
             url = buffer.ToString();
-            HTTPRequests requests = new HTTPRequests();
-            string respone=requests.post(url);
-            if (respone.Contains("登陆成功"))
+            String respone=requests.post(url);
+            if (respone.Contains("欢迎您!"))
             {
-                return true;
+                string startMark = "</span> ，";
+                string endMark = "欢迎您!";
+                int startPosition = respone.IndexOf(startMark);
+                int endPosition=respone.IndexOf(endMark);
+                string userName = respone.Substring(startPosition+startMark.Length, endPosition-startPosition- startMark.Length);
+                return userName;
             }
-            return false;
+            return null;
         }
-        public 
+        public static string  getToDoListHtml(HTTPRequests requests)
+        {
+            String url = "http://10.0.15.16:7001/console/remindWorkSpace.action";
+            string respone = requests.get(url);
+            return respone;
+
+        }
+        public List<ToDoTask> GetToDoTasks(string html)
+        {
+            return null;
+        }
     }
 }

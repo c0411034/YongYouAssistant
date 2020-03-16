@@ -49,7 +49,7 @@ namespace YongYouAssistant
                 return CONN_ERR;
             }
 
-            logger.Info("本次获取的Cookie：" + GetCookieIndexCookieKey(_cookie, ".Xauth"));
+            logger.Info("本次获取的Cookie：" + GetCookieIndexCookieKey(_cookie, "JSESSIONID"));
             if (Web_Response.ContentEncoding.ToLower() == "gzip")  // 如果使用了GZip则先解压
             {
                 using (Stream Stream_Receive = Web_Response.GetResponseStream())

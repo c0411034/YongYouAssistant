@@ -24,8 +24,9 @@ namespace YongYouAssistant
             HTTPRequests requests = new HTTPRequests();
             //requests.get("http://www.baidu.com");
             //requests.get("http://10.0.15.16:7001/console/account.action");
-            YongYouHandler yongYouAssistant = new YongYouHandler();
-            yongYouAssistant.login();
+            HTTPRequests hTTP = new HTTPRequests();
+            YongYouHandler.userLogin(hTTP);
+            YongYouHandler.getToDoListHtml(hTTP);
         }
     }
 }
