@@ -36,9 +36,53 @@ namespace YongYouAssistant
             return respone;
 
         }
-        public List<ToDoTask> GetToDoTasks(string html)
+        public static List<ToDoTask> GetToDoTasks(string html)
         {
-            return null;
+            NSoup.Nodes.Document doc = NSoup.NSoupClient.Parse(html);
+            NSoup.Select.Elements ele = doc.GetElementsByTag("span");
+            List<ToDoTask> result = new List<ToDoTask>();
+            foreach (var i in ele)
+            {
+                if (i.Attr("style") == "padding:1px 0 0 2px")
+                {
+                    var title = i.GetElementsByTag("a")[0];
+                    string content = title.Attr("title");
+                    var urgencyElement = title.GetElementsByTag("b")[0];
+                    string urgency = urgencyElement.Html();
+                    var nextSpan = i.NextElementSibling;
+                    string time = nextSpan.Html();
+                    ToDoTask toDoTask = new ToDoTask(urgency, content, time);
+                    result.Add(toDoTask);
+
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 比对两个list，取出新增的todo任务，并返回
+        /// </summary>
+        /// <param name="newToDOTaskList"></param>
+        /// <param name="oldToDoTasList"></param>
+        /// <returns></returns>
+        public static List<ToDoTask> getNewToDoTaskList(List<ToDoTask> newToDOTaskList, List<ToDoTask> oldToDoTasList)
+        {
+            List<ToDoTask> result = new List<ToDoTask>();
+            foreach (var newItem in newToDOTaskList)
+            {
+                bool isFind = false;
+                foreach (var oldItem in oldToDoTasList)
+                {
+                    if (String.Equals(newItem.ToString(), oldItem.ToString()))
+                    {
+                        isFind = true;
+                    }
+                }
+                if (!isFind)
+                {
+                    result.Add(newItem);
+                }
+            }
+            return result;
         }
     }
 }

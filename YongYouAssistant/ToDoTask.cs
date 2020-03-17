@@ -12,15 +12,16 @@ namespace YongYouAssistant
         public enum Urgency :uint
         {
             无=0,
-            紧急=1,
-            特急=2
+            急件=1,
+            紧急=2,
+            特急=3
         }
 
         private string content;
         private string createTime;
-        private Urgency urgency;
+        private string urgency;
 
-        public ToDoTask(Urgency urgency,string content,string createTime)
+        public ToDoTask(string urgency,string content,string createTime)
         {
             this.urgency = urgency;
             this.content = content;
@@ -31,18 +32,7 @@ namespace YongYouAssistant
         public string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            switch (this.urgency)
-            {
-                case Urgency.无:
-                    break;
-                case Urgency.紧急:
-                    sb.Append("紧急");
-                    break;
-                case Urgency.特急:
-                    sb.Append("特急");
-                    break;
-
-            }
+            sb.Append(this.urgency);
             sb.Append(this.content);
             sb.Append("\t");
             sb.Append(this.createTime);
