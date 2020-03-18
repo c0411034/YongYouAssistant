@@ -7,7 +7,7 @@ using System.Text;
  */
 namespace YongYouAssistant
 {
-    class ToDoTask
+    public class ToDoTask
     {
         public enum Urgency :uint
         {
@@ -17,9 +17,9 @@ namespace YongYouAssistant
             特急=3
         }
 
-        private string content;
-        private string createTime;
-        private string urgency;
+        public string content;
+        public string createTime;
+        public string urgency;
 
         public ToDoTask(string urgency,string content,string createTime)
         {
