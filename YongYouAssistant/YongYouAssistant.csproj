@@ -69,6 +69,11 @@
     <Compile Include="HTTPRequests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
     <Compile Include="ToDoTask.cs" />
     <Compile Include="YongYouHandler.cs" />
     <EmbeddedResource Include="AlertToDoTask.resx">
@@ -86,6 +91,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -103,7 +112,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Icon1.ico" />
     <Content Include="res\icon.ico" />
+    <None Include="res\todoTaskList.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

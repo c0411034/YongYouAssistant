@@ -36,6 +36,34 @@ namespace YongYouAssistant
             return respone;
 
         }
+        /// <summary>
+        /// 传入整个页面的html，返回只有任务列表那部分html
+        /// 即<ul></ul>之间的html
+        /// 并把所有点击的链接都去除
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
+        public static string getToDoTaskHtmlUl(string html)
+        {
+            NSoup.Nodes.Document doc = NSoup.NSoupClient.Parse(html);
+            NSoup.Select.Elements ele = doc.GetElementsByClass("con_left");
+            if (ele.IsEmpty)
+            {
+                NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+                logger.Error("无法解析html:items_ul");
+                return null;
+            }
+            ele[0].GetElementsByTag("a").RemoveAttr("href");//把所有点击的链接都去除
+            StringBuilder sb = new StringBuilder("<div class=\"con_left\">");
+            sb.Append(ele[0].Html());
+            sb.Append("</div>");
+            string ulHtml = sb.ToString();
+            return (ulHtml);
+        }
+        public static string getToDoTaskHtmlUl(HTTPRequests requests)
+        {
+            return getToDoTaskHtmlUl(getToDoListHtml(requests));
+        }
         public static List<ToDoTask> GetToDoTasks(string html)
         {
             NSoup.Nodes.Document doc = NSoup.NSoupClient.Parse(html);

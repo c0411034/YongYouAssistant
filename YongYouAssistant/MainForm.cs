@@ -11,24 +11,23 @@ namespace YongYouAssistant
 {
     public partial class MainForm : Form
     {
+        private string todoTaskHtmlModel = Resource1.todoTaskList;//主界面浏览器显示任务页面的模板html；
         public MainForm()
         {
             InitializeComponent();
-            Console.WriteLine("hello");
             test();
 
 
         }
         public void  test()
         {
-            //HTTPRequests requests = new HTTPRequests();
-            ////requests.get("http://www.baidu.com");
-            ////requests.get("http://10.0.15.16:7001/console/account.action");
-            //YongYouHandler.userLogin(requests);
-            //string html=YongYouHandler.getToDoListHtml(requests);
-            ////html = System.IO.File.ReadAllText(@"D:\YongYouAssistant\remindWorkSpace.html");
-            ////System.Console.WriteLine("Contents of WriteText.txt = {0}", html);
-            //YongYouHandler.GetToDoTasks(html);
+            HTTPRequests requests = new HTTPRequests();
+            YongYouHandler.userLogin(requests);
+            string ulHtml = YongYouHandler.getToDoTaskHtmlUl(requests);
+            //string html = System.IO.File.ReadAllText(@"D:\YongYouAssistant\remindWorkSpace.html");
+            //string ul=YongYouHandler.getToDoTaskHtmlUl(html);
+            showToDoTaskInWebBrowse(ulHtml);
+            //System.Console.WriteLine("Contents of WriteText.txt = {0}", ul);
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -40,22 +39,20 @@ namespace YongYouAssistant
 
             notifyIcon.Visible = true;
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        
+        private void showToDoTaskInWebBrowse(string ulHtml)
         {
-            //AlertToDoTask alertToDoTask = new AlertToDoTask(new ToDoTask("紧急", "关于某某的通知", "2020/03/03"));
-            //alertToDoTask.Show();
             webBrowser1.Navigate("about:blank");
-            string html = System.IO.File.ReadAllText(@"D:\YongYouAssistant\remindWorkSpace.only.html");
+            string showHtml = todoTaskHtmlModel.Replace("<div class=\"con_left\"></div>", ulHtml);
             while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)  //报错“指定的转换无效”
                 Application.DoEvents();
-            webBrowser1.Document.Write(html);
+            webBrowser1.Document.Write(showHtml);
+
         }
 
-        private void showToDoBalloonTips(ToDoTask toDoTask)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            notifyIcon.ShowBalloonTip(20000,"你有新任务了", toDoTask.urgency+" "+toDoTask.content, ToolTipIcon.Info);
-
+            //webBrowser1.ena
         }
     }
 }

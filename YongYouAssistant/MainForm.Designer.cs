@@ -31,10 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,16 +47,6 @@
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "用友助手";
             this.notifyIcon.Visible = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(560, 83);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // contextMenuStrip1
             // 
@@ -74,36 +64,49 @@
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.AllowWebBrowserDrop = false;
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Top;
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(702, 313);
+            this.webBrowser1.ScrollBarsEnabled = false;
+            this.webBrowser1.Size = new System.Drawing.Size(702, 288);
             this.webBrowser1.TabIndex = 2;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 291);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(702, 22);
+            this.statusStrip1.TabIndex = 4;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(702, 313);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.webBrowser1);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }
 
