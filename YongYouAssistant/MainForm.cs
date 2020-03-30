@@ -19,11 +19,12 @@ namespace YongYouAssistant
 
 
         }
-        public void  test()
+        
+        public void test()
         {
-            HTTPRequests requests = new HTTPRequests();
-            YongYouHandler.userLogin(requests);
-            string ulHtml = YongYouHandler.getToDoTaskHtmlUl(requests);
+            
+            YongYouHandler.userLogin();
+            string ulHtml = YongYouHandler.getToDoTaskHtmlUl();
             //string html = System.IO.File.ReadAllText(@"D:\YongYouAssistant\remindWorkSpace.html");
             //string ul=YongYouHandler.getToDoTaskHtmlUl(html);
             showToDoTaskInWebBrowse(ulHtml);
@@ -35,11 +36,11 @@ namespace YongYouAssistant
             //设置窗口在右下角
             int left = SystemInformation.WorkingArea.Width - this.Width;
             int top = SystemInformation.WorkingArea.Height - this.Height;
-            this.Location = new Point(left,top);
+            this.Location = new Point(left, top);
 
             notifyIcon.Visible = true;
         }
-        
+
         private void showToDoTaskInWebBrowse(string ulHtml)
         {
             webBrowser1.Navigate("about:blank");
@@ -54,5 +55,11 @@ namespace YongYouAssistant
         {
             //webBrowser1.ena
         }
+        //private bool loginYongYou()
+        //{
+            
+        //    requests.
+
+        //}
     }
 }

@@ -9,13 +9,33 @@ using System.Text;
 
 namespace YongYouAssistant
 {
-    class HTTPRequests
+    /// <summary>
+    /// 单例
+    /// </summary>
+    public sealed class HTTPRequests
     {
 
         public static String CONN_ERR = "CONN_ERR";//网络连接失败
-
+        private static readonly object padlock = new object();//只读线程锁  
         private static CookieContainer _cookie = new CookieContainer();
         private NLog.Logger logger;
+
+        private static HTTPRequests instance;//单例对象
+        public static HTTPRequests Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new HTTPRequests();
+                    }
+                    return instance;
+                }
+            }
+        }
+        
         public HTTPRequests()
         {
 

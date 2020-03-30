@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="ToDoTask.cs" />
     <Compile Include="YongYouHandler.cs" />
+    <Compile Include="YongYouMessageCheckThread.cs" />
     <EmbeddedResource Include="AlertToDoTask.resx">
       <DependentUpon>AlertToDoTask.cs</DependentUpon>
     </EmbeddedResource>
