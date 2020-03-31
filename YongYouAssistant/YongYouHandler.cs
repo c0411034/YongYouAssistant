@@ -34,6 +34,7 @@ namespace YongYouAssistant
             HTTPRequests requests = HTTPRequests.Instance;
             String url = "http://10.0.15.16:7001/console/remindWorkSpace.action";
             string respone = requests.get(url);
+            //TODO判断是否能连接内网
             return respone;
 
         }
@@ -76,6 +77,10 @@ namespace YongYouAssistant
                 {
                     var title = i.GetElementsByTag("a")[0];
                     string content = title.Attr("title");
+                    if (content.Equals(""))
+                    {
+                        content = title.Text();                        
+                    }
                     var urgencyElement = title.GetElementsByTag("b")[0];
                     string urgency = urgencyElement.Html();
                     var nextSpan = i.NextElementSibling;
