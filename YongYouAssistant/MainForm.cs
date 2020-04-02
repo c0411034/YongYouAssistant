@@ -11,57 +11,20 @@ using System.Windows.Forms;
 
 namespace YongYouAssistant
 {
+    /// <summary>
+    /// TODO
+    /// 关闭程序关闭线程
+    /// 点击图标出界面
+    /// </summary>
     public partial class MainForm : Form
     {
         private string todoTaskHtmlModel = Resource1.todoTaskList;//主界面浏览器显示任务页面的模板html；
         public delegate void UpdateUiStringDelegate(string obj);//更新UI中string的委托类型
         public delegate void AlertTodoTaskDelegate(ToDoTask obj);//更新UI中string的委托类型
+        private YongYouHandlerThread yongYouHandlerThread;
         public MainForm()
         {
             InitializeComponent();
-            UpdateUiStringDelegate updateStatusStripDelegate = new UpdateUiStringDelegate(updateStatusStripLeft);
-            //login();
-
-
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-            startInitThread();
-        }
-        public void startInitThread()
-        {
-            Thread initThread= new Thread(init);
-            initThread.Start();
-            
-        }
-        private void init()
-        {
-            updateStatusStripLeft("正在检测网络状态……");
-            uint netConection = NetContectionStatusUtil.getNetConnection();
-            updateStatusStripLeft("检测网络状态完毕");
-            switch (netConection)
-            {
-                case NetContectionStatusUtil.DOUBLE_NET_CONNECT:
-                    updateStatusStripCenter("网络状态：双网");
-                    break;
-                case NetContectionStatusUtil.ONLY_INTARNET_CONNECT:
-                    updateStatusStripCenter("网络状态：已连接内网");
-                    break;
-                case NetContectionStatusUtil.ONLY_INTERNET_CONNECT:
-                    updateStatusStripCenter("网络状态：只连接外网");
-                    close("无法连接用友，请检查网络");
-                    break;
-                case NetContectionStatusUtil.NONE_NET_CONNECT:
-                    updateStatusStripCenter("网络状态：无网络");
-                    close("无法连接用友，请检查网络");
-                    break;
-                default:
-                    break;
-            }
-            //if()
-            //login();
         }
         public void close(string closeReason)
         {
@@ -199,18 +162,6 @@ namespace YongYouAssistant
                 this.Close();
             }
         }
-        public void test()
-        {
-            NetContectionStatusUtil.getNetConnection();
-            //updateStatusStrip("测试多线程1");
-            //YongYouHandler.userLogin();
-            //string ulHtml = YongYouHandler.getToDoTaskHtmlUl();
-            ////string html = System.IO.File.ReadAllText(@"D:\YongYouAssistant\remindWorkSpace.html");
-            ////string ul=YongYouHandler.getToDoTaskHtmlUl(html);
-            //showToDoTaskInWebBrowse(ulHtml);
-            ////System.Console.WriteLine("Contents of WriteText.txt = {0}", ul);
-
-        }
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
@@ -220,6 +171,7 @@ namespace YongYouAssistant
             this.Location = new Point(left, top);
 
             notifyIcon.Visible = true;
+            startYongYongThread();
         }
 
         private void _showToDoTaskInWebBrowse(string ulHtml)
@@ -232,10 +184,35 @@ namespace YongYouAssistant
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void startYongYongThread()
         {
-            YongYouMessageCheckThread t = new YongYouMessageCheckThread(updateStatusStripLeft, showToDoTaskInWebBrowse, showAlertToDoTask);
-            t.startThread();
+            if (yongYouHandlerThread == null)
+            {
+
+                yongYouHandlerThread = new YongYouHandlerThread(
+                    updateStatusStripLeft,
+                    updateStatusStripCenter,
+                    updateStatusStripRight,
+                    showToDoTaskInWebBrowse,
+                    showAlertToDoTask);
+                yongYouHandlerThread.startThread();
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (yongYouHandlerThread != null)
+            {
+
+                yongYouHandlerThread.stopThread();
+
+            }
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.TopMost = true;
+            this.TopMost = false;
         }
     }
 }

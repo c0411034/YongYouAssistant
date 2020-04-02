@@ -25,6 +25,8 @@ namespace YongYouAssistant
             int left = SystemInformation.WorkingArea.Width - this.Width;
             int top = SystemInformation.WorkingArea.Height - this.Height;
             this.Location = new Point(left, top);
+
+            
         }
     }
 }

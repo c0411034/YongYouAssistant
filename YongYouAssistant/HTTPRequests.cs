@@ -102,11 +102,11 @@ namespace YongYouAssistant
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.CookieContainer = _cookie;
             //request.Timeout = 90000;
-            //request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
-            //request.Headers.Add("Accept-Encoding", "gzip,deflate,sdch");
-            //request.Headers.Add("Accept-Language", "zh-CN,zh;q=0.8");
-            //request.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36";
-            //request.KeepAlive = true;
+            request.Accept = "*/*";
+            request.Headers.Add("Accept-Encoding", "gzip,deflate");
+            request.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9");
+            request.UserAgent = @"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
+            request.KeepAlive = true;
             return request;
 
         }

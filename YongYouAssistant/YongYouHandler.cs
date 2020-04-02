@@ -32,7 +32,8 @@ namespace YongYouAssistant
         {
 
             HTTPRequests requests = HTTPRequests.Instance;
-            String url = "http://10.0.15.16:7001/console/remindWorkSpace.action";
+            string timestamp = GetTimeStamp(DateTime.Now);
+            String url = string.Format("http://10.0.15.16:7001/console/remindWorkSpace.action?timestamp={0}&ajax=y", timestamp);
             string respone = requests.get(url);
             //TODO判断是否能连接内网
             return respone;
@@ -64,7 +65,15 @@ namespace YongYouAssistant
         }
         public static string getToDoTaskHtmlUl()
         {
-            return getToDoTaskHtmlUl(getToDoListHtml());
+            string result = getToDoListHtml();
+            if (result != HTTPRequests.CONN_ERR)
+            {
+                return getToDoTaskHtmlUl(result);
+            }
+            else
+            {
+                return HTTPRequests.CONN_ERR;
+            }
         }
         public static List<ToDoTask> getToDoTasks(string html)
         {
@@ -117,6 +126,16 @@ namespace YongYouAssistant
                 }
             }
             return result;
+        }
+        /// <summary>
+        /// 获取时间戳
+        /// </summary>
+        /// <returns></returns>
+        public static string GetTimeStamp(System.DateTime time, int length = 13)
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
+            long t = (time.Ticks - startTime.Ticks) / 10000;   //除10000调整为13位
+            return t.ToString().Substring(0, length);
         }
     }
 }

@@ -6,33 +6,21 @@ using System.Text;
 namespace YongYouAssistant
 {
     /// <summary>
-    /// 网络状态判断
+    /// 网络状态
     /// </summary>
-    class NetContectionStatusUtil
+    class NetContectionStastion
     {
         public const uint ONLY_INTERNET_CONNECT = 0;
         public const uint ONLY_INTARNET_CONNECT = 1;
         public const uint DOUBLE_NET_CONNECT = 2;
         public const uint NONE_NET_CONNECT = 3;
-        public static uint getNetConnection()
+        public bool isConnectInternet = false;
+        public bool isConnectIntranet = false;
+        public uint getConnectStation()
         {
-            bool isConnetInternet = false;
-            bool isConnetIntarnet = false;
-            HTTPRequests h = HTTPRequests.Instance;
-            string result=h.get("http://10.0.15.16:7001");
-            if (result != HTTPRequests.CONN_ERR)
+            if (isConnectIntranet)
             {
-                isConnetIntarnet = true;
-            }
-
-            result = h.get("http://www.baidu.com");
-            if (result != HTTPRequests.CONN_ERR)
-            {
-                isConnetInternet = true;
-            }
-            if (isConnetIntarnet)
-            {
-                if (isConnetInternet)
+                if (isConnectInternet)
                 {
                     return DOUBLE_NET_CONNECT;
                 }
@@ -41,7 +29,7 @@ namespace YongYouAssistant
                     return ONLY_INTARNET_CONNECT;
                 }
             }
-            else if (isConnetInternet)
+            else if (isConnectInternet)
             {
                 return ONLY_INTERNET_CONNECT;
             }
@@ -49,7 +37,18 @@ namespace YongYouAssistant
             {
                 return NONE_NET_CONNECT;
             }
-
         }
+        public static bool testIsConnectInternet()
+        {
+            string result = HTTPRequests.Instance.get("http://www.baidu.com");
+            return result == HTTPRequests.CONN_ERR ? false : true;
+        }
+        public static bool testIsConnectIntranet()
+        {
+            string result = HTTPRequests.Instance.get("http://10.0.15.16:7001");
+            return result == HTTPRequests.CONN_ERR ? false : true;
+        }
+        
+        
     }
 }
