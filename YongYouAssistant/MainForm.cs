@@ -201,18 +201,38 @@ namespace YongYouAssistant
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.WindowState != FormWindowState.Minimized)
+            {
+                //不是最小化的状态，那就最小化
+                this.WindowState = FormWindowState.Minimized;
+                this.ShowInTaskbar = false;
+                e.Cancel = true;//取消关闭窗体事件
+            }
+            else
+            {
+                //是最小化的状态就直接退出
+                realExit();
+            }
+               
+        }
+        private void realExit()
+        {
             if (yongYouHandlerThread != null)
             {
-
                 yongYouHandlerThread.stopThread();
 
             }
         }
-
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            this.TopMost = true;
-            this.TopMost = false;
+            this.ShowInTaskbar = true;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;//先让窗口最小化，才能真正退出
+            this.Close();
         }
     }
 }
